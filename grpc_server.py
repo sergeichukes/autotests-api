@@ -10,6 +10,10 @@ class UserServiceServicer(user_service_pb2_grpc.UserServiceServicer):
         print(f'Получен запрос к методу GetUser для пользователя: {request.username}')
         return user_service_pb2.GetUserResponse(message=f"Привет, {request.username}")
 
+    def PostUser(self, request: user_service_pb2.PostUserRequest, context):
+        print(f'Получен запрос на создание юзера: {request} \n и с контекстом: {context.set_code(200)}')
+        return user_service_pb2.GetUserResponse(message=f"Привет, {request.fullName}")
+
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))

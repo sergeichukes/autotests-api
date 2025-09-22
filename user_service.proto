@@ -10,6 +10,18 @@ message GetUserResponse {
     string message = 1;
 }
 
+message FullName {
+    string name = 1;
+    string lastName = 2;
+}
+
+message PostUserRequest {
+    FullName fullName = 1;
+    uint32 age = 2;
+    bool isActive = 3;
+}
+
 service UserService {
     rpc GetUser (GetUserRequest) returns (GetUserResponse);
+    rpc PostUser (PostUserRequest) returns (GetUserResponse);
 }
