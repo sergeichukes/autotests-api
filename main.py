@@ -1,5 +1,9 @@
-def say_hello():
-    print("hello")
+import xml.etree.ElementTree as ET
+from pathlib import Path
+import json
 
-if __name__ == "__main__":
-    say_hello()
+p = Path(r'C:\Users\serge\Documents\projects\autotests-api\new_json.json').resolve()
+print(p)
+data = json.loads(Path('new_json.json').read_text())
+
+print(data)

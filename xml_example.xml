@@ -1,0 +1,9 @@
+<person>
+    <id>1</id>
+    <name>Ленка</name>
+    <age>30</age>
+    <address>
+        <city>Belgrade</city>
+        <street>JG</street>
+    </address>
+</person>
