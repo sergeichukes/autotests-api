@@ -4,7 +4,7 @@ from httpx import Response, QueryParams
 
 from clients.api_client import APIClient
 from clients.files.files_client import FileDict
-from clients.private_http_builder import get_private_http_client, UserDict
+from clients.private_http_builder import get_private_http_client, UserSchema
 
 
 class GetCoursesQueryDict(TypedDict):
@@ -19,7 +19,7 @@ class CourseDict(TypedDict):
     description: str
     previewFile: FileDict
     estimatedTime: str
-    createdByUser: UserDict
+    createdByUser: UserSchema
 
 
 class CreateCourseRequestDict(TypedDict):
@@ -66,5 +66,5 @@ class CoursesClient(APIClient):
         return response.json()
 
 
-def get_courses_client(user: UserDict) -> CoursesClient:
+def get_courses_client(user: UserSchema) -> CoursesClient:
     return CoursesClient(client=get_private_http_client(user))

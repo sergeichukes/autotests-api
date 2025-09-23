@@ -3,7 +3,7 @@ from httpx import Response
 from clients.api_client import APIClient
 from typing import TypedDict
 
-from clients.private_http_builder import get_private_http_client, UserDict
+from clients.private_http_builder import get_private_http_client, UserSchema
 from clients.users.public_users_client import CreateUserResponseDict
 
 
@@ -32,5 +32,5 @@ class PrivateUsersClient(APIClient):
         return response.json()
 
 
-def get_private_users_client(user: UserDict) -> PrivateUsersClient:
+def get_private_users_client(user: UserSchema) -> PrivateUsersClient:
     return PrivateUsersClient(client=get_private_http_client(user))
