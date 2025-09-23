@@ -3,12 +3,13 @@ from typing import TypedDict
 from httpx import Response
 
 from clients.api_client import APIClient
+from clients.private_http_builder import get_private_http_client, UserDict
 
 
 class CreateFileRequestDict(TypedDict):
     filename: str
     directory: str
-    
+
 
 class FileClient(APIClient):
     def get_file_api(self, file_id: str) -> Response:
@@ -23,3 +24,7 @@ class FileClient(APIClient):
             data=request,
             files={"upload_file": open(request["filename"], "rb")}
         )
+
+
+def get_files_client(user: UserDict) -> FileClient:
+    return FileClient(client=get_private_http_client(user))

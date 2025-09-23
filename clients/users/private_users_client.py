@@ -3,6 +3,8 @@ from httpx import Response
 from clients.api_client import APIClient
 from typing import TypedDict
 
+from clients.private_http_builder import get_private_http_client, UserDict
+
 
 class UpdateUserRequestDict(TypedDict):
     email: str | None
@@ -23,3 +25,7 @@ class PrivateUsersClient(APIClient):
 
     def delete_user_api(self, user_id: str) -> Response:
         return self.delete(f"/api/v1/users/{user_id}")
+
+
+def get_private_users_client(user: UserDict) -> PrivateUsersClient:
+    return PrivateUsersClient(client=get_private_http_client(user))
