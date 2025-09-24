@@ -3,7 +3,7 @@ from typing import TypedDict
 from httpx import Response, QueryParams
 
 from clients.api_client import APIClient
-from clients.private_http_builder import get_private_http_client, UserDict
+from clients.private_http_builder import get_private_http_client, UserSchema
 
 BASE_EXERCISES_URI = "/api/v1/exercises"
 
@@ -50,5 +50,5 @@ class ExercisesClient(APIClient):
         return self.patch(BASE_EXERCISES_URI + f"/{exercise_id}", json=request)
 
 
-def get_exercises_client(user: UserDict) -> ExercisesClient:
+def get_exercises_client(user: UserSchema) -> ExercisesClient:
     return ExercisesClient(client=get_private_http_client(user))
