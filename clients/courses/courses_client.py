@@ -3,7 +3,7 @@ from typing import TypedDict
 from httpx import Response, QueryParams
 
 from clients.api_client import APIClient
-from clients.files.files_client import FileDict
+from clients.files.files_schema import FileSchema
 from clients.private_http_builder import get_private_http_client, UserSchema
 
 
@@ -17,7 +17,7 @@ class CourseDict(TypedDict):
     maxScore: int
     minScore: int
     description: str
-    previewFile: FileDict
+    previewFile: FileSchema
     estimatedTime: str
     createdByUser: UserSchema
 
