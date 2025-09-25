@@ -5,7 +5,7 @@ from clients.auth.auth_schema import LoginRequestSchema, LoginResponseSchema
 from clients.users.public_users_client import PublicUsersClient
 from http import HTTPStatus
 
-from tests.conftest import UserFixture
+from fixtures.users import UserFixture
 from tools.assertions.auth import assert_login_response
 from tools.assertions.base import assert_status_code
 
