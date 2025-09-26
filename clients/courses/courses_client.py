@@ -5,52 +5,16 @@ from httpx import Response, QueryParams
 from clients.api_client import APIClient
 from clients.files.files_schema import FileSchema
 from clients.private_http_builder import get_private_http_client, UserSchema
-
-
-class GetCoursesQueryDict(TypedDict):
-    userId: str
-
-
-class CourseDict(TypedDict):
-    id: str
-    title: str
-    maxScore: int
-    minScore: int
-    description: str
-    previewFile: FileSchema
-    estimatedTime: str
-    createdByUser: UserSchema
-
-
-class CreateCourseRequestDict(TypedDict):
-    title: str
-    maxScore: int | None
-    minScore: int | None
-    description: str
-    estimatedTime: str | None
-    previewFileId: str
-    createdByUserId: str
-
-
-class CreateCourseResponseDict(TypedDict):
-    course: CourseDict
-
-
-class UpdateCourseRequestDict(TypedDict):
-    title: str | None
-    maxScore: int | None
-    minScore: int | None
-    description: str | None
-    estimatedTime: str | None
+from clients.courses.course_schema import GetCoursesQuerySchema, CreateCourseRequestSchema, UpdateCourseRequestSchema, \
+    CreateCourseResponseSchema
 
 
 class CoursesClient(APIClient):
-    def get_courses_api(self, query: GetCoursesQueryDict):
-        params = QueryParams(dict(query))
-        return self.get("/api/v1/courses", params=params)
+    def get_courses_api(self, query: GetCoursesQuerySchema):
+        return self.get("/api/v1/courses", params=QueryParams(query.model_dump()))
 
-    def create_course_api(self, request: CreateCourseRequestDict) -> Response:
-        return self.post("/api/v1/courses", json=request)
+    def create_course_api(self, request: CreateCourseRequestSchema) -> Response:
+        return self.post("/api/v1/courses", json=request.model_dump())
 
     def get_course_api(self, course_id: str) -> Response:
         return self.get(f"/api/v1/courses/{course_id}")
@@ -58,12 +22,12 @@ class CoursesClient(APIClient):
     def delete_course_api(self, course_id: str) -> Response:
         return self.delete(f"/api/v1/courses/{course_id}")
 
-    def update_course_api(self, course_id: str, request: UpdateCourseRequestDict) -> Response:
-        return self.patch(f"/api/v1/courses/{course_id}", json=request)
+    def update_course_api(self, course_id: str, request: UpdateCourseRequestSchema) -> Response:
+        return self.patch(f"/api/v1/courses/{course_id}", json=request.model_dump())
 
-    def create_course(self, request: CreateCourseRequestDict) -> CreateCourseResponseDict:
+    def create_course(self, request: CreateCourseRequestSchema) -> CreateCourseResponseSchema:
         response = self.create_course_api(request)
-        return response.json()
+        return CreateCourseResponseSchema.model_validate_json(response.text)
 
 
 def get_courses_client(user: UserSchema) -> CoursesClient:

@@ -1,4 +1,5 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
+from tools.fakers import faker
 
 
 class UserSchema(BaseModel):
@@ -14,11 +15,11 @@ class CreateUserResponseSchema(BaseModel):
 
 
 class CreateUserRequestSchema(BaseModel):
-    email: str
-    password: str
-    lastName: str
-    firstName: str
-    middleName: str
+    email: str = Field(default_factory=faker.email)
+    password: str = Field(default_factory=faker.text)
+    lastName: str = Field(default_factory=faker.text)
+    firstName: str = Field(default_factory=faker.text)
+    middleName: str = Field(default_factory=faker.text)
 
 
 class UpdateUserRequestSchema(BaseModel):
