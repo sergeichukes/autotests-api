@@ -15,7 +15,7 @@ class FileClient(APIClient):
         return self.delete(f"/api/v1/files/{file_id}")
 
     def create_file_api(self, request: CreateFileRequestSchema) -> Response:
-        file_path = Path(r"testdata/files", request.filename)
+        file_path = Path(f"testdata/{request.directory}", request.filename)
         return self.post(
             "/api/v1/files",
             data=request.model_dump(),
