@@ -3,8 +3,8 @@ from tools.fakers import faker
 
 
 class CreateFileRequestSchema(BaseModel):
-    filename: str = Field(default_factory=lambda: f'{faker.text()}.png')
-    directory: str = 'files'
+    filename: str = 'image.png'
+    directory: str = 'tests'
 
 
 class FileSchema(BaseModel):
@@ -15,4 +15,8 @@ class FileSchema(BaseModel):
 
 
 class CreateFileResponseSchema(BaseModel):
+    file: FileSchema
+
+
+class GetFileResponseSchema(BaseModel):
     file: FileSchema

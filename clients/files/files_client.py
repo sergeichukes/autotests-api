@@ -4,7 +4,7 @@ from httpx import Response
 
 from clients.api_client import APIClient
 from clients.files.files_schema import CreateFileRequestSchema, CreateFileResponseSchema
-from clients.private_http_builder import get_private_http_client, UserSchema
+from clients.private_http_builder import get_private_http_client, UserWithPasswordSchema
 
 
 class FileClient(APIClient):
@@ -15,7 +15,9 @@ class FileClient(APIClient):
         return self.delete(f"/api/v1/files/{file_id}")
 
     def create_file_api(self, request: CreateFileRequestSchema) -> Response:
-        file_path = Path(f"testdata/{request.directory}", request.filename)
+        file_to_open = 'image.png' if request.filename == '' else request.filename
+
+        file_path = Path(f"testdata/files", file_to_open)
         return self.post(
             "/api/v1/files",
             data=request.model_dump(),
@@ -27,5 +29,5 @@ class FileClient(APIClient):
         return CreateFileResponseSchema.model_validate_json(response.text)
 
 
-def get_files_client(user: UserSchema) -> FileClient:
+def get_files_client(user: UserWithPasswordSchema) -> FileClient:
     return FileClient(client=get_private_http_client(user))

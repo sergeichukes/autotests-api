@@ -1,10 +1,7 @@
-from typing import TypedDict
-
 from httpx import Response, QueryParams
 
 from clients.api_client import APIClient
-from clients.files.files_schema import FileSchema
-from clients.private_http_builder import get_private_http_client, UserSchema
+from clients.private_http_builder import get_private_http_client, UserSchema, UserWithPasswordSchema
 from clients.courses.course_schema import GetCoursesQuerySchema, CreateCourseRequestSchema, UpdateCourseRequestSchema, \
     CreateCourseResponseSchema
 
@@ -30,5 +27,5 @@ class CoursesClient(APIClient):
         return CreateCourseResponseSchema.model_validate_json(response.text)
 
 
-def get_courses_client(user: UserSchema) -> CoursesClient:
+def get_courses_client(user: UserWithPasswordSchema) -> CoursesClient:
     return CoursesClient(client=get_private_http_client(user))
