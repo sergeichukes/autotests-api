@@ -19,12 +19,16 @@ class CourseSchema(BaseModel):
     createdByUser: UserSchema
 
 
+class GetCoursesResponseSchema(BaseModel):
+    courses: list[CourseSchema]
+
+
 class CreateCourseRequestSchema(BaseModel):
     title: str = Field(default_factory=faker.text)
-    maxScore: int | None = None
-    minScore: int | None = None
+    maxScore: int | None = 10
+    minScore: int | None = 1
     description: str = Field(default_factory=faker.text)
-    estimatedTime: str | None = None
+    estimatedTime: str | None = '1 week'
     previewFileId: str
     createdByUserId: str
 
@@ -34,8 +38,12 @@ class CreateCourseResponseSchema(BaseModel):
 
 
 class UpdateCourseRequestSchema(BaseModel):
-    title: str | None
-    maxScore: int | None
-    minScore: int | None
-    description: str | None
-    estimatedTime: str | None
+    title: str | None = Field(default_factory=faker.text)
+    maxScore: int | None = 200
+    minScore: int | None = 100
+    description: str | None = Field(default_factory=faker.text)
+    estimatedTime: str | None = '2 weeks'
+
+
+class UpdateCourseResponseSchema(BaseModel):
+    course: CourseSchema
