@@ -1,5 +1,6 @@
 from pathlib import Path
 
+import allure
 from httpx import Response
 
 from clients.api_client import APIClient
@@ -8,12 +9,15 @@ from clients.private_http_builder import get_private_http_client, UserWithPasswo
 
 
 class FileClient(APIClient):
+    @allure.step('Get file by id {file_id}')
     def get_file_api(self, file_id: str) -> Response:
         return self.get(f"/api/v1/files/{file_id}")
 
+    @allure.step('Delete file by id {file_id}')
     def delete_file_api(self, file_id: str) -> Response:
         return self.delete(f"/api/v1/files/{file_id}")
 
+    @allure.step('Create file by id')
     def create_file_api(self, request: CreateFileRequestSchema) -> Response:
         file_to_open = 'image.png' if request.filename == '' else request.filename
 

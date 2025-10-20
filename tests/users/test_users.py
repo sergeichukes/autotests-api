@@ -1,9 +1,11 @@
 import pytest
+import allure
 
 from clients.users.public_users_client import PublicUsersClient
 from clients.users.users_schema import CreateUserRequestSchema, CreateUserResponseSchema
 from http import HTTPStatus
 
+from tools.allure.tags import AllureTag
 from tools.assertions.base import assert_status_code
 
 from tools.assertions.schema import validate_json_schema
@@ -14,7 +16,9 @@ from tools.fakers import faker
 @pytest.mark.users
 @pytest.mark.regression
 @pytest.mark.parametrize('domain', ['mail.ru', 'gmail.com', 'example.com'])
+@allure.tag(AllureTag.USERS, AllureTag.REGRESSION)
 class TestUsers:
+    @allure.title('Create user')
     def test_create_user(self, public_users_client: PublicUsersClient, domain: str):
         request = CreateUserRequestSchema(
             email=faker.email(domain)

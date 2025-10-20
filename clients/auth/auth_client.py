@@ -1,3 +1,4 @@
+import allure
 from httpx import Response
 
 from clients.api_client import APIClient
@@ -6,9 +7,11 @@ from clients.auth.auth_schema import LoginRequestSchema, LoginResponseSchema, Re
 
 
 class AuthClient(APIClient):
+    @allure.step('Login user')
     def login_api(self, request: LoginRequestSchema) -> Response:
         return self.post("/api/v1/authentication/login", json=request.model_dump())
 
+    @allure.step('Refresh auth token')
     def refresh_api(self, request: RefreshRequestSchema) -> Response:
         return self.post("/api/v1/authentication/refresh", json=request.model_dump())
 

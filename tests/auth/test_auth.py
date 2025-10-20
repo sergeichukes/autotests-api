@@ -1,3 +1,4 @@
+import allure
 import pytest
 
 from clients.auth.auth_client import AuthClient
@@ -15,6 +16,7 @@ from tools.assertions.schema import validate_json_schema
 @pytest.mark.regression
 @pytest.mark.auth
 class TestAuth:
+    @allure.title('Login with correct credentials')
     def test_login(self, public_users_client: PublicUsersClient, auth_client: AuthClient, function_user: UserFixture):
         request = LoginRequestSchema(
             email=function_user.email,

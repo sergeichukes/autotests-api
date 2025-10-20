@@ -1,5 +1,6 @@
 from typing import TypedDict
 
+import allure
 from httpx import Response, QueryParams
 
 from clients.api_client import APIClient
@@ -33,19 +34,24 @@ class UpdateExerciseRequestDict(TypedDict):
 
 
 class ExercisesClient(APIClient):
+    @allure.step('Get exercises')
     def get_exercises_api(self, query: GetExercisesQueryDict) -> Response:
         params = QueryParams(dict(query))
         return self.get(BASE_EXERCISES_URI, params=params)
 
+    @allure.step('Create exercise')
     def create_exercise_api(self, request: CreateExerciseRequestDict) -> Response:
         return self.post(BASE_EXERCISES_URI, json=request)
 
+    @allure.step('Get exercise by id {exercise_id}')
     def get_exercise_api(self, exercise_id: str) -> Response:
         return self.get(BASE_EXERCISES_URI + f"/{exercise_id}")
 
+    @allure.step('Delete exercise by id {exercise_id}')
     def delete_exercise_api(self, exercise_id: str) -> Response:
         return self.delete(BASE_EXERCISES_URI + f"/{exercise_id}")
 
+    @allure.step('Update exercise by id {exercise_id}')
     def update_exercise_api(self, exercise_id: str, request: UpdateExerciseRequestDict) -> Response:
         return self.patch(BASE_EXERCISES_URI + f"/{exercise_id}", json=request)
 
